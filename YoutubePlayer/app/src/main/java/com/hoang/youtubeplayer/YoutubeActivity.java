@@ -2,10 +2,12 @@ package com.hoang.youtubeplayer;
 
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.view.ViewGroup;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
@@ -22,7 +24,10 @@ public class YoutubeActivity extends YouTubeBaseActivity implements YouTubePlaye
 //        button1.setText("Button added");
 //        layout.addView(button1);
 
+        YouTubePlayerView player = new YouTubePlayerView(this);
 
+        player.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        layout.addView(player);
     }
 
     @Override

@@ -94,5 +94,12 @@ class GetRawData extends AsyncTask<String, Void, String> {
         mDownloadStatus = DownloadStatus.FAILED_OR_EMPTY;
         return null;
     }
+
+    void runInSameThread(String s) {
+        Log.d(TAG, "runInSameThread: starts");
+
+        onPostExecute(doInBackground(s));
+        Log.d(TAG, "runInSameThread: ends");
+    }
 }
 

@@ -1,10 +1,14 @@
 package com.example.mac.flickrbrowser;
 
+import java.io.Serializable;
+
 /**
  * Created by mac on 1/26/17.
  */
 
-class Photo {
+class Photo implements Serializable {
+
+    private static final long serialVerionUID = 1L;
 
     private String mTitle;
     private String mAuthor;

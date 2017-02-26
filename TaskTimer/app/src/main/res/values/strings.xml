@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Task Timer</string>
+    <string name="action_settings">Settings</string>
+    <string name="menutitle_addTask">add Task</string>
+    <string name="menumain_showDuration">Durations Report</string>
+    <string name="menumain_settings">Settings</string>
+    <string name="menumain_showAbout">About Task Timer</string>
+    <string name="menumain_generate">Generate</string>
+    <string name="no_task_message">No task selected</string>
+    <string name="edit_button_description">Button to edit</string>
+    <string name="delete_button_description">Button to delete</string>
+    <string name="addedit_name_hint">Task name: required</string>
+    <string name="addedit_description_hint">Task description (optinal)</string>
+    <string name="addedit_sortorder_hint">Sort oder: low to high</string>
+    <string name="title_activity_add_edit">AddEditActivity</string>
+</resources>

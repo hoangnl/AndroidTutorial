@@ -13,4 +13,6 @@
     <string name="addedit_description_hint">Task description (optinal)</string>
     <string name="addedit_sortorder_hint">Sort oder: low to high</string>
     <string name="title_activity_add_edit">AddEditActivity</string>
+    <string name="instruction_heading">Instructions</string>
+    <string name="instructions">Use the add button (+) in the toolbar to create new task</string>
 </resources>

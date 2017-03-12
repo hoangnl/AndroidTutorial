@@ -93,7 +93,12 @@ public class AppProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+
+        Log.d(TAG, "query: rows return " + cursor.getCount());
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        return cursor;
     }
 
     @Nullable
@@ -126,6 +131,13 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri=" + uri);
         }
+
+        if (recordId > 0) {
+            Log.d(TAG, "insert: setting notifyed change with uri " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "insert: nothing inserted");
+        }
         Log.d(TAG, "insert: exit with return uri = " + uri);
         return returnUri;
     }
@@ -157,6 +169,13 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri=" + uri);
         }
+
+        if (count > 0) {
+            Log.d(TAG, "delete: setting notifyed change with uri " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "delete: nothing delete");
+        }
         Log.d(TAG, "delete: return " + count);
         return count;
     }
@@ -187,6 +206,13 @@ public class AppProvider extends ContentProvider {
                 break;
             default:
                 throw new IllegalArgumentException("Unknown uri=" + uri);
+        }
+
+        if (count > 0) {
+            Log.d(TAG, "update: setting notifyed change with uri " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "update: nothing update");
         }
         Log.d(TAG, "update: return " + count);
         return count;

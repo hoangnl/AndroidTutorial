@@ -1,7 +1,9 @@
 package com.example.mac.tasktimer;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,9 +27,33 @@ public class AddEditActivityFragment extends Fragment {
     private EditText mDescriptionTextView;
     private EditText mSortOrderTextView;
     private Button mSaveButton;
+    private OnSaveClicked mOnSaveListener = null;
+
+    interface OnSaveClicked {
+        void onSaveClicked();
+    }
 
     public AddEditActivityFragment() {
         Log.d(TAG, "AddEditActivityFragment: constructor");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        Log.d(TAG, "onAttach: starts");
+        super.onAttach(context);
+
+        Activity activity = getActivity();
+        if (!(activity instanceof OnSaveClicked)) {
+            throw new ClassCastException(activity.getClass().getSimpleName());
+        }
+        mOnSaveListener = (OnSaveClicked) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        Log.d(TAG, "onDetach: starts");
+        super.onDetach();
+        mOnSaveListener = null;
     }
 
     @Override
@@ -42,7 +68,8 @@ public class AddEditActivityFragment extends Fragment {
         mSortOrderTextView = (EditText) view.findViewById(R.id.addedit_sortoder);
         mSaveButton = (Button) view.findViewById(R.id.addedit_save);
 
-        Bundle arguments = getActivity().getIntent().getExtras();
+        //Bundle arguments = getActivity().getIntent().getExtras();
+        Bundle arguments = getArguments();
         final Task task;
 
         if (arguments != null) {

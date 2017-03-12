@@ -12,6 +12,8 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +27,8 @@ import java.security.InvalidParameterException;
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "MainActivityFragment";
+
+    private CursorRecyclerViewAdapter mAdapter;
 
     private static final int LOADER_ID = 0;
 
@@ -42,7 +46,17 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
+
+        Log.d(TAG, "onCreateView: starts");
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.task_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mAdapter = new CursorRecyclerViewAdapter(null, (CursorRecyclerViewAdapter.OnTaskClickListener) getContext());
+        recyclerView.setAdapter(mAdapter);
+
+        Log.d(TAG, "onCreateView: returning");
+        return view;
     }
 
     @Override
@@ -67,21 +81,16 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        int count = -1;
-        if (data != null) {
-            while (data.moveToNext()) {
-                for (int i = 0; i < data.getColumnCount(); i++) {
-                    Log.d(TAG, "onLoadFinished: " + data.getString(i));
-                }
-                Log.d(TAG, "onLoadFinished: ");
-            }
-            count = data.getCount();
-        }
+        mAdapter.swapCursor(data);
+        int count = mAdapter.getItemCount();
+        Log.d(TAG, "onLoadFinished: count is" + count);
+
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
         Log.d(TAG, "onLoaderReset: starts");
+        mAdapter.swapCursor(null);
     }
 }
